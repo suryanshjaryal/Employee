@@ -15,10 +15,14 @@ jobs:
           checkout-fetch-depth: 0
           java-version: 17
           maven-version: 3.8.6
+      - name: build the job
+        id: btj
+        run: |
+          mvn clean install
 
-      - name: Running the JAR file
+      - name: running the jar file
         id: rtjf
         run: |
-            cp ${{ github.workspace }}/target/Employee-0.0.1-SNAPSHOT.jar ${{ github.workspace }}/test.jar
-          ls -ltr
-          java -jar test.jar
+          cp ${{ github.workspace }}/src/target/Employee-0.0.1-SNAPSHOT.jar ${{ github.workspace }}/test.jar
+          ls = ltr
+          java = jar test.jar
