@@ -25,7 +25,7 @@ jobs:
         run: |
           cp ${{ github.workspace }}/target/Employee-0.0.1-SNAPSHOT.jar ${{ github.workspace }}/jarEmployee-0.0.1-SNAPSHOT.jar
           ls -ltr
-          java -jar ${{ github.workspace }}/jarEmployee-0.0.1-SNAPSHOT.jar
+          java -jar ${{ github.workspace }}/jarEmployee-0.0.1-SNAPSHOT.jar &
 
       - name: Stop the JAR
         id: stj
