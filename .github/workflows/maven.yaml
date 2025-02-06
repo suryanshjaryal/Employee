@@ -28,4 +28,6 @@ jobs:
           java -jar ${{ github.workspace }}/jarEmployee-0.0.1-SNAPSHOT.jar
 
       - name: Stop the JAR
-        run: pkill -f "jarEmployee-0.0.1-SNAPSHOT.jar" || echo "Already stopped"
+        id: stj
+        run: |
+         pkill -f "jarEmployee-0.0.1-SNAPSHOT.jar" || echo "process not found"
