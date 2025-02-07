@@ -27,6 +27,26 @@ jobs:
           ls -ltr
           java -jar ${{ github.workspace }}/jarEmployee-0.0.1-SNAPSHOT.jar &
           git status
+          # This is the command to get  the Http Status Code of the "jar" file during the run
+      - name: Get Status Code
+        id: gsc
+        run: |
+          STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}" https://example.com)
+          echo "STATUS_CODE=$STATUS_CODE" >> $GITHUB_ENV
+      
+
+      # This command is used to print the Http Status Code and then continue the pipeline if the "Code =200"
+      - name: Print Status Code
+        id: psc
+        run: |
+          if [ "$STATUS_CODE" -eq 200 ]; then
+           echo "Website is up!"
+          else
+           echo "Website is down!" Status code: $STATUS_CODE
+           exit 1
+           fi
+          
+          echo "The HTTP status code is $STATUS_CODE"
 
       - name: Stop the JAR
         id: stj
