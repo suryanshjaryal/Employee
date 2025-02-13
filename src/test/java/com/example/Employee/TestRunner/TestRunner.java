@@ -7,14 +7,14 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = "src/test/java/resources/Feature/employee.feature",
+		features = "src/test/resources/feature",
 		glue = "com.example.Employee.stepDefinitions",
-		plugin = {"pretty", "html:target/cucumber-report.html"}
+		tags = "@employee",
+		plugin = {"pretty", "html:target/cucumber-report.html"
+
+		}
 )
 class TestRunner {
 
-	@Test
-	void contextLoads() {
-	}
 
 }
