@@ -15,6 +15,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @CucumberContextConfiguration
@@ -39,12 +40,12 @@ public class MyStepdefs {
 //        String requestBody = objectMapper.writeValueAsString(employee);
 //
 //        requestSpecification = RestAssured.given().contentType("application/json").body(requestBody);
-        Map<String,String>data =dataTable.asMap(String.class,String.class);
-        String name= data.get("name");
- String email=data.get("email");
- Employee employee=new Employee();
- employee.setName(name);
- employee.setEmailId(email);
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        String name = data.get("name");
+        String email = data.get("email");
+        Employee employee = new Employee();
+        employee.setName(name);
+        employee.setEmailId(email);
         String requestBody = objectMapper.writeValueAsString(employee);
         requestSpecification = RestAssured.given().contentType("application/json").body(requestBody);
     }
@@ -62,22 +63,62 @@ public class MyStepdefs {
 
     @Given("User wants to get the data")
     public void userWantsToGetTheData() {
-        requestSpecification=RestAssured.given().contentType("application/json");
+        requestSpecification = RestAssured.given().contentType("application/json");
 
     }
 
     @When("the client sends a GET request")
     public void theClientSendsAGETRequest() {
-        response= requestSpecification.get(baseUrl+ "/emp/get");
+        response = requestSpecification.get(baseUrl + "/emp/get");
 
     }
 
     @Then("the response status should be OK with Code {int}")
     public void theResponseStatusShouldBeOKWithCode(int arg0) {
-        int actualGetResponseCode= response.getStatusCode();
-        Assert.assertEquals(arg0,actualGetResponseCode);
+        int actualGetResponseCode = response.getStatusCode();
+        Assert.assertEquals(arg0, actualGetResponseCode);
+    }
+
+
+    @Given("the client wants to delete an employee with ID {int}")
+    public void theClientWantsToDeleteAnEmployeeWithID(int arg0) {
+        requestSpecification = RestAssured.given().contentType("application/json");
+    }
+
+    @When("the client sends a DELETE request to remove the employee with ID {int}")
+    public void theClientSendsADELETERequestToRemoveTheEmployeeWithID(int employeeId) {
+        response = requestSpecification.when().delete(baseUrl + "/emp/delete/" + employeeId);
     }
 
 
 
+    @Then("the response status should b {int}")
+    public void theResponseStatusShouldB(int arg0) {
+        int actualResponseCode=response.getStatusCode();
+        Assert.assertEquals(arg0,actualResponseCode);
     }
+
+    @Given("the client wants to update an employee with ID {int}")
+    public void theClientWantsToUpdateAnEmployeeWithID(int arg0) {
+        requestSpecification = RestAssured.given().contentType("application/json");
+    }
+
+    @When("the client sends an UPDATE request for employee with ID {int}")
+    public void clientSendsPUTRequest(int employeeId) {
+        Map<String, String> updatedEmployee = new HashMap<>();
+        updatedEmployee.put("name", "John Doe");  // Updated name
+        updatedEmployee.put("email", "johndoe@example.com");
+
+        response = requestSpecification.body(updatedEmployee)
+                .when()
+                .put(baseUrl + "/" + employeeId);
+    }
+
+
+    @Then("the response status should {int}")
+    public void theResponseStatusShould(int arg0) {
+        int actualResponseCode=response.getStatusCode();
+        Assert.assertEquals(arg0,actualResponseCode);
+    }
+}
+//
