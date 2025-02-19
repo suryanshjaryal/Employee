@@ -109,9 +109,10 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployee(@PathVariable("id") Long id) {
         boolean isDeleted = employeeService.deleteEmployee(id);
         if (isDeleted) {
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();  // Return 204 when deleted successfully
         } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  // Return 404 if employee not found
         }
     }
+
 }
