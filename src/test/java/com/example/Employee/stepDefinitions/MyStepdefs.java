@@ -111,10 +111,31 @@ public class MyStepdefs {
     public void theResponseStatusShould(int arg0) {
     }
 
-    @Given("the client wants to delete an employee with ID {int}")
-    public void theClientWantsToDeleteAnEmployeeWithID(int employeeId) {
+//    @Given("the client wants to delete an employee with ID {int}")
+//    public void theClientWantsToDeleteAnEmployeeWithID(int employeeId) {
+//        requestSpecification = RestAssured.given().contentType("application/json");
+//        this.employeeIdToDelete = employeeId; // Store ID for later use
+//    }
+//
+//    @When("the client sends a DELETE request")
+//    public void theClientSendsADELETERequest() throws IOException {
+//        String url = UtilityClass.getProperty("url") + "/emp/delete/" + employeeIdToDelete;
+//        response = requestSpecification.delete(url);
+//    }
+//
+//    @Then("the response status should b {int}")
+//    public void theResponseStatusShouldB(int expectedStatus) {
+//        Assert.assertEquals(expectedStatus, response.getStatusCode());
+//    }
+
+
+    @Given("the client wants to delete the following employee:")
+    public void theClientWantsToDeleteTheFollowingEmployee(DataTable dataTable) {
         requestSpecification = RestAssured.given().contentType("application/json");
-        this.employeeIdToDelete = employeeId; // Store ID for later use
+
+        // Extract employee ID from DataTable
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        this.employeeIdToDelete = Integer.parseInt(data.get(0).get("Employee ID"));
     }
 
     @When("the client sends a DELETE request")
@@ -123,12 +144,10 @@ public class MyStepdefs {
         response = requestSpecification.delete(url);
     }
 
-    @Then("the response status should b {int}")
-    public void theResponseStatusShouldB(int expectedStatus) {
+    @Then("the response status should e {int}")
+    public void theResponseStatusShouldE(int expectedStatus) {
         Assert.assertEquals(expectedStatus, response.getStatusCode());
     }
-
-
 
 }
 

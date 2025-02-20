@@ -8,7 +8,7 @@ Feature: Employee API Basic Test
       | qess | 1s@gmail.com  |
       | szd  | xsz@gmail.com |
     When the client sends a POST request
-    Then the response status should b 201
+    Then the response status should be 201
 
   Scenario: Retrieve Employee Data
     Given User wants to get the data with details
@@ -29,14 +29,14 @@ Feature: Employee API Basic Test
 #    Given the client wants to delete an employee with ID 1
 #    When the client sends a DELETE request
 #    Then the response status should be 204
-  Scenario: Delete an employee
-    Given the client wants to delete an employee with ID 1
-    When the client sends a DELETE request
-    Then the response status should b 204
-
 #  Scenario: Delete an employee
-#    Given the client wants to delete an employee with details
-#      | ID |
-#      | 1  |
+#    Given the client wants to delete an employee with ID 1
 #    When the client sends a DELETE request
 #    Then the response status should b 204
+
+  Scenario: Delete an employee
+    Given the client wants to delete the following employee:
+      | Employee ID |
+      | 1          |
+    When the client sends a DELETE request
+    Then the response status should e 204
